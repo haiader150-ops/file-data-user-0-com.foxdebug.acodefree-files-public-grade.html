@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة التقدير</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2026.7.3/core.css">
+    <script type="module" src="https://pyscript.net/releases/2026.7.3/core.js"></script>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background: linear-gradient(135deg, #dbeafe, #ede9fe);
+            text-align: center;
+            padding: 25px;
+        }
+        .box {
+            background: white;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px #999;
+        }
+        input, button {
+            width: 90%;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 12px;
+            font-size: 20px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #6c63ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #result {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        #stars {
+            font-size: 30px;
+            color: #f5b700;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🌟 حاسبة التقدير</h1>
+        <p>أدخل درجتك من 100:</p>
+        <input type="number" id="grade" placeholder="مثلاً: 95">
+        <button mpy-click="calculate">احسب تقديري</button>
+        <div id="result"></div>
+        <div id="stars"></div>
+    </div>
+
+    <script type="mpy">
+from pyscript import document
+
+def calculate(event):
+    grade = document.querySelector("#grade").value
+    result = document.querySelector("#result")
+    stars = document.querySelector("#stars")
+
+    # إذا كان الإدخال فارغًا
+    if grade == "":
+        result.innerText = "اكتب رقمًا أولًا"
+        stars.innerText = ""
+    else:
+        grade = int(grade)
+        count = 0
+
+        # منع الدرجات غير المناسبة
+        if grade < 1:
+            result.innerText = "أدخل درجة من 1 إلى 100"
+            stars.innerText = ""
+        else:
+            # تحديد التقدير واللون وعدد النجوم
+            if grade > 89:
+                name = "ممتاز 🌟"
+                color = "green"
+                count = 5
+            elif grade > 79:
+                name = "جيد جدًا"
+                color = "blue"
+                count = 4
+            elif grade > 69:
+                name = "جيد"
+                color = "orange"
+                count = 3
+            else:
+                name = "يحتاج إلى تحسين"
+                color = "red"
+                count = 1
+
+            result.innerText = name
+            result.style.color = color
+
+            # تكرار النجوم بعدد التقدير
+            stars.innerText = ""
+            for i in range(count):
+                stars.innerText += "⭐"
+
+            # التأكد من أن الدرجة لا تتجاوز 100
+            number = grade
+            while number > 100:
+                number = number - 101
+
+            # فحص الدرجة بعد الحلقة
+            if number != grade:
+                result.innerText = "أدخل درجة من 1 إلى 100"
+                stars.innerText = ""
+    </script>
+</body>
+</html>
